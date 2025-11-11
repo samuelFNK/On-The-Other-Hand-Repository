@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Webcam Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/handpose"></script>
 </head>
 <body>
     <video id="local_cam" autoplay playsinline controls></video>
+    <canvas id="cam_overlay"></canvas>
     <script src="local_camera_handling.js"></script>
 </body>
 </html>
