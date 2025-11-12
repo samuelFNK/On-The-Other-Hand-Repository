@@ -19,30 +19,65 @@ navigator.mediaDevices.getUserMedia({video : true})
         console.error("Could not access local camera: ", err);
     });
 
+//run model
 async function runHandPose(){
 
     const model = await handpose.load();
 
     async function detectHands(){
+
+        //performance timer starting point
+        const performanceTimerStart = performance.now();
         const predictions = await model.estimateHands(local_cam);
 
         //clear drawn landmarks each frame
         ctx.clearRect(0, 0, cam_overlay.width, cam_overlay.height);
 
         if (predictions.length > 0) {
-            console.log(predictions);
+
             const landmarks = predictions[0].landmarks;
 
-            //draw overlay on landmarks
+            //draw overlay dots on landmarks
             landmarks.forEach(([x, y]) => {
                 ctx.beginPath();
                 ctx.arc(x, y, 5, 0, 2 * Math.PI);
-                ctx.fillStyle = "blue";
+                ctx.fillStyle = "red";
                 ctx.fill();
             });
+
+            //locate hand structure dots
+            const handStructure = [
+                [0, 1], [1, 2], [2, 3], [3, 4], //thumb
+                [0, 5], [5, 6], [6, 7], [7, 8], //Index
+                [0, 9], [9, 10], [10, 11], [11, 12], //Middle
+                [0, 13], [13, 14], [14, 15], [15, 16], //Ring
+                [0, 17], [17, 18], [18, 19], [19, 20], //Pinky
+
+                
+                [0, 5], [5, 9], [9, 13], [13, 17], [17, 0], //Palm sides
+                [0, 1], [1, 5] //Palm between fingers
+            ];
+
+            //draw hand structure
+            handStructure.forEach(([start, end]) => {
+                const [x1, y1] = landmarks[start];
+                const [x2, y2] = landmarks[end];
+
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.strokeStyle = "purple";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            } )
+
         }
 
-        requestAnimationFrame(detectHands);
+        //performance timer checkpoint
+        const performanceTimerCheck1 = performance.now() - performanceTimerStart;
+        //request animation after performance timer timeout. Cap max speed to the second @inParam
+        setTimeout( () => requestAnimationFrame(detectHands), Math.max(0, 33 - performanceTimerCheck1) );
+        
     }
 
     detectHands();
