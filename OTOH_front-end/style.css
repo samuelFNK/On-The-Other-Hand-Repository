@@ -1,0 +1,50 @@
+/*variables*/
+:root {
+    --bg-color: #000000;
+    --dot-color: #ff0000;
+    --line-color: #510000;
+}
+
+/*Defaults*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Franklin Gothic Medium';
+    background-color: var(--bg-color);
+    color: black;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#video_container {
+    position: relative;
+    display: inline-block;
+    border-radius: 0%;
+    overflow: hidden;
+}
+
+#local_cam {
+    width: 100%;
+    height: auto;
+    transform: scaleX(-1); /*mirrors displayed camera*/
+    z-index: 2; /*layout order*/
+    pointer-events: none;
+}
+
+#cam_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: scaleX(-1); /*mirrors displayed overlay*/
+    z-index: 3; /*layout order*/
+    pointer-events: none;
+}

@@ -12,7 +12,7 @@ navigator.mediaDevices.getUserMedia({video : true})
             local_cam.play();
             cam_overlay.width = local_cam.videoWidth;
             cam_overlay.height = local_cam.videoHeight;
-            runHandPose();
+            runHandDetection();
         }
     })
     .catch(err => {
@@ -20,7 +20,7 @@ navigator.mediaDevices.getUserMedia({video : true})
     });
 
 //run model
-async function runHandPose(){
+async function runHandDetection(){
 
     const model = await handpose.load();
 
