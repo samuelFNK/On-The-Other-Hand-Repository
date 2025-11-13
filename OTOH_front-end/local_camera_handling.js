@@ -1,6 +1,7 @@
 const local_cam = document.getElementById("local_cam");
 const cam_overlay = document.getElementById("cam_overlay");
 const ctx = cam_overlay.getContext("2d");
+
 const hands = new Hands({
   locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
 });
@@ -25,12 +26,12 @@ hands.onResults(results => {
              landmarks.forEach((point) => {
                 ctx.beginPath();
                 ctx.arc(point.x * cam_overlay.width, point.y * cam_overlay.height, 2, 0, 2 * Math.PI);
-                ctx.fillStyle = i === 0 ? "red" : "blue";
+                ctx.fillStyle = "red";
                 ctx.fill();
             });
 
             //draw landmark connections
-            drawConnectors(ctx, landmarks, HAND_CONNECTIONS, {color: i === 0 ?  "purple" : "green", lineWidth : 1});
+            drawConnectors(ctx, landmarks, HAND_CONNECTIONS, {color: "purple", lineWidth : 2});
         });
     }
 });
@@ -44,6 +45,7 @@ const camera = new Camera(local_cam, {
 
 camera.start();
 local_cam.onloadedmetadata = () => {
+
     cam_overlay.width = local_cam.videoWidth;
     cam_overlay.height = local_cam.videoHeight;
 };
