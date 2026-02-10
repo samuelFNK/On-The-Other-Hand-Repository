@@ -3,22 +3,23 @@ const cam_overlay = document.getElementById("cam_overlay");
 const ctx = cam_overlay.getContext("2d");
 ctx.imageSmoothingEnabled = false; // turn off blur for scaled images on web
 
-// Map image objects to fingertip array nums 
-const fingertipImages = { 
-    4: new Image(), 
-    8: new Image(), 
-    12: new Image(), 
-    16: new Image(), 
-    20: new Image() 
-};
 
-// Set image object sources to local paths
-fingertipImages[4].src = "public/tinyLemonTree.jpg"; 
-fingertipImages[8].src = "public/tinyLemonTree.jpg"; 
-fingertipImages[12].src = "public/tinyLemonTree.jpg"; 
-fingertipImages[16].src = "public/tinyLemonTree.jpg"; 
-fingertipImages[20].src = "public/tinyLemonTree.jpg";
 
+//load all /public images into array. (for loop needs to know how many images there are)
+const publicImageArr = [];
+for (let i = 1; i <= 3; i++) {
+    const img = new Image();
+    img.src = `public/img${i}.png`;
+    publicImageArr.push(img);
+}
+
+// fingertip landmark ID's
+const fingertipIds = [4, 8, 12, 16, 20];
+
+//frame counter + cycling index 
+let frameCount = 0; 
+let currentImageIndex = 0; 
+const framesPerImage = 20; //change speed
 
 const hands = new Hands({
   locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
@@ -37,21 +38,29 @@ hands.onResults(results => {
     //clear entire overlay
     ctx.clearRect(0, 0, cam_overlay.width, cam_overlay.height);
 
+    frameCount++;
+    if (frameCount % framesPerImage === 0) { 
+        currentImageIndex = (currentImageIndex + 1) % publicImageArr.length; 
+    } 
+    const fingertipImg = publicImageArr[currentImageIndex];
+
     if (results.multiHandLandmarks){
 
         results.multiHandLandmarks.forEach(landmarks => {
 
             //display images on landmarks
-            [4, 8, 12, 16, 20].forEach(id => {
+            fingertipIds.forEach((id, fingerIndex) => {
                 const imgPoint = landmarks[id];
-                const fingertipImg = fingertipImages[id];
-
+               
                 const x = imgPoint.x * cam_overlay.width;
                 const y = imgPoint.y * cam_overlay.height;
 
-                const size = 30; //img display size
+                const size = 20; //img display size
+
+                const imgIndex = (currentImageIndex + fingerIndex) % publicImageArr.length;
+                const fingertipImg = publicImageArr[imgIndex];
+
                 ctx.drawImage(fingertipImg, x - size/2, y - size/2, size, size);
-                
             });
         });
     }
