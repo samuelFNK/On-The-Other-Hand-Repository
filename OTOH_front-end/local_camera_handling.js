@@ -1,6 +1,24 @@
 const local_cam = document.getElementById("local_cam");
 const cam_overlay = document.getElementById("cam_overlay");
 const ctx = cam_overlay.getContext("2d");
+ctx.imageSmoothingEnabled = false; // turn off blur for scaled images on web
+
+// Map image objects to fingertip array nums 
+const fingertipImages = { 
+    4: new Image(), 
+    8: new Image(), 
+    12: new Image(), 
+    16: new Image(), 
+    20: new Image() 
+};
+
+// Set image object sources to local paths
+fingertipImages[4].src = "public/tinyLemonTree.jpg"; 
+fingertipImages[8].src = "public/tinyLemonTree.jpg"; 
+fingertipImages[12].src = "public/tinyLemonTree.jpg"; 
+fingertipImages[16].src = "public/tinyLemonTree.jpg"; 
+fingertipImages[20].src = "public/tinyLemonTree.jpg";
+
 
 const hands = new Hands({
   locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
@@ -20,18 +38,21 @@ hands.onResults(results => {
     ctx.clearRect(0, 0, cam_overlay.width, cam_overlay.height);
 
     if (results.multiHandLandmarks){
-        results.multiHandLandmarks.forEach((landmarks, i) => {
 
-            //draw landmarks
-             landmarks.forEach((point) => {
-                ctx.beginPath();
-                ctx.arc(point.x * cam_overlay.width, point.y * cam_overlay.height, 2, 0, 2 * Math.PI);
-                ctx.fillStyle = "red";
-                ctx.fill();
+        results.multiHandLandmarks.forEach(landmarks => {
+
+            //display images on landmarks
+            [4, 8, 12, 16, 20].forEach(id => {
+                const imgPoint = landmarks[id];
+                const fingertipImg = fingertipImages[id];
+
+                const x = imgPoint.x * cam_overlay.width;
+                const y = imgPoint.y * cam_overlay.height;
+
+                const size = 30; //img display size
+                ctx.drawImage(fingertipImg, x - size/2, y - size/2, size, size);
+                
             });
-
-            //draw landmark connections
-            drawConnectors(ctx, landmarks, HAND_CONNECTIONS, {color: "purple", lineWidth : 2});
         });
     }
 });
