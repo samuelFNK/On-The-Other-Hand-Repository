@@ -7,7 +7,7 @@ ctx.imageSmoothingEnabled = false; // turn off blur for scaled images on web
 
 //load all /public images into array. (for loop needs to know how many images there are)
 const publicImageArr = [];
-for (let i = 1; i <= 3; i++) {
+for (let i = 1; i <= 8; i++) {
     const img = new Image();
     img.src = `public/img${i}.png`;
     publicImageArr.push(img);
@@ -55,7 +55,7 @@ hands.onResults(results => {
                 const x = imgPoint.x * cam_overlay.width;
                 const y = imgPoint.y * cam_overlay.height;
 
-                const size = 20; //img display size
+                const size = 25; //img display size
 
                 const imgIndex = (currentImageIndex + fingerIndex) % publicImageArr.length;
                 const fingertipImg = publicImageArr[imgIndex];
