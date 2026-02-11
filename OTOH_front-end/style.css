@@ -1,6 +1,6 @@
 /*variables*/
 :root {
-    --bg-color: #000000;
+    --bg-color: #1A1817;
     --dot-color: #ff0000;
     --line-color: #510000;
 }
@@ -21,6 +21,20 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+#camera_interface_container { 
+   background-color: #5C2E2B;
+   
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   width: fit-content;
+   height: fit-content;
+   
+   padding: 40px 180px 110px;
+   border-radius: 20px;
 }
 
 #video_container {
