@@ -27,14 +27,15 @@ body {
    background-color: #5C2E2B;
    
    display: flex;
+   flex-direction: column;
    justify-content: center;
    align-items: center;
 
    width: fit-content;
    height: fit-content;
    
-   padding: 40px 180px 110px;
-   border-radius: 20px;
+   padding: 40px 180px 40px;
+   border-radius: 30px;
 }
 
 #video_container {
@@ -61,4 +62,18 @@ body {
     transform: scaleX(-1); /*mirrors displayed overlay*/
     z-index: 3; /*layout order*/
     pointer-events: none;
+}
+
+#camera_controls {
+    margin-top: 30px;
+    width: 100%; /*match container width*/
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.cam_btn {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
 }
