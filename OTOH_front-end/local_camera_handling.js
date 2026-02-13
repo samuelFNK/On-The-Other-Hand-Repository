@@ -9,9 +9,37 @@ let fingerTrackingEnabled = true;
 const toggleFingerBtn = document.querySelector(".toggle_fingertracking");
 
 toggleFingerBtn.addEventListener("click", () => { 
-    fingerTrackingEnabled = !fingerTrackingEnabled; // Optional: update button appearance 
+    fingerTrackingEnabled = !fingerTrackingEnabled; 
     toggleFingerBtn.classList.toggle("active", fingerTrackingEnabled); 
 });
+
+//handle toggle_camera button
+let cameraEnabled = true;
+const toggleCameraBtn = document.querySelector(".toggle_camera");
+
+toggleCameraBtn.addEventListener("click", () => {
+    cameraEnabled = !cameraEnabled;
+    toggleCameraBtn.classList.toggle("active", cameraEnabled);
+
+    if (cameraEnabled) {
+        startCamera();
+    } else {
+        stopCamera();
+    }
+})
+
+function startCamera(){
+    camera.start();
+}
+
+function stopCamera(){
+    const stream = local_cam.srcObject;
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+    }
+    local_cam.srcObject = null;
+    ctx.clearRect(0, 0, cam_overlay.width, cam_overlay.height);
+}
 
 //load all /public images into array. (for loop needs to know how many images there are)
 const publicImageArr = [];
