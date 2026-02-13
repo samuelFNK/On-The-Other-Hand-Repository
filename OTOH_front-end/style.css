@@ -76,4 +76,23 @@ body {
     width: 75px;
     height: 75px;
     border-radius: 50%;
+    border: 2px solid var(--line-color);
+
+    background: #1A1817; 
+    box-shadow: 0 0 8px #3a0000, inset 0 0 12px #000000;
+
+    background-image: repeating-linear-gradient(
+        to bottom, #2a0000 0px, #2a0000 2px, transparent 2px, transparent 4px
+    );
+    
+}
+
+.cam_btn:hover {
+    border-color: #ff3b3b;
+    box-shadow: 0 0 4px #ff3b3b, inset 0 0 20px #3a0000;
+}
+
+.cam_btn:active {
+    transform: scale(0.99);
+    box-shadow: 0 0 4px #7a0000, inset 0 0 20px #7a0000;
 }
