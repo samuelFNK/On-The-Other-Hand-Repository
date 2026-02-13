@@ -4,6 +4,14 @@ const ctx = cam_overlay.getContext("2d");
 ctx.imageSmoothingEnabled = false; // turn off blur for scaled images on web
 
 
+//handle toggle_fingertracking button
+let fingerTrackingEnabled = true;
+const toggleFingerBtn = document.querySelector(".toggle_fingertracking");
+
+toggleFingerBtn.addEventListener("click", () => { 
+    fingerTrackingEnabled = !fingerTrackingEnabled; // Optional: update button appearance 
+    toggleFingerBtn.classList.toggle("active", fingerTrackingEnabled); 
+});
 
 //load all /public images into array. (for loop needs to know how many images there are)
 const publicImageArr = [];
@@ -37,6 +45,11 @@ hands.onResults(results => {
 
     //clear entire overlay
     ctx.clearRect(0, 0, cam_overlay.width, cam_overlay.height);
+
+    //skip if fingertracking disabled
+    if (!fingerTrackingEnabled) { 
+        return; 
+    }
 
     frameCount++;
     if (frameCount % framesPerImage === 0) { 
