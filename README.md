@@ -1,1 +1,2 @@
-"On-The-Other-Hand-Repository" / "OTOH"
+Hand recognition software using AI model.
+Runs as web-app.
